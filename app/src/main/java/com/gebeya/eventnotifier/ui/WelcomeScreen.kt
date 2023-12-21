@@ -1,4 +1,4 @@
-package com.gebeya.eventnotifier
+package com.gebeya.eventnotifier.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

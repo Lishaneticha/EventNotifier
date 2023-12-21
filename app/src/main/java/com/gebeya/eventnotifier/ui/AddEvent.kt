@@ -1,4 +1,4 @@
-package com.gebeya.eventnotifier
+package com.gebeya.eventnotifier.ui
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

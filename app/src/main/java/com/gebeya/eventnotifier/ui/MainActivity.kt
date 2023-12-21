@@ -1,4 +1,4 @@
-package com.gebeya.eventnotifier
+package com.gebeya.eventnotifier.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
