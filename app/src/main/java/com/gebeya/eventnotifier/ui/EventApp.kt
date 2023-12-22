@@ -104,17 +104,14 @@ fun EventApp(){
     }
 //
 //    AddEventScreen()
+
+    val p1: Persons
 }
 
 
-data class Events(
+
+class Persons(
     val name: String,
-    val location: String
+    val age: Int
 )
 
-fun main(){
-    val p1 = Person(name = "Abel", age = 12, address = Address("Addis Ababa", "092323232"))
-}
-
-class Address (location: String, phone: String)
-class Person (name: String, age: Int, address: Address)
