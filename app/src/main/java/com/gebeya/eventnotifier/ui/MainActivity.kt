@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.gebeya.eventnotifier.data.network.api.EventApi
+import com.gebeya.eventnotifier.data.network.entity.Event
 import com.gebeya.eventnotifier.ui.theme.EventNotifierTheme
 import com.gebeya.eventnotifier.viewmodel.WelcomeScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,11 +31,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    EventApp()
+                    EventApp(
+                        welcomeScreenViewModel = welcomeScreenViewModel
+                    )
                 }
             }
         }
-        welcomeScreenViewModel.getEvent()
+        welcomeScreenViewModel.createEvent(
+            event = Event(
+                date = "2/2/2024",
+                name = "Gebeya event",
+                type = "Company",
+                location = "Bahir dar"
+            ).copy(name = "", location = "")
+        )
     }
 
     override fun onPause() {

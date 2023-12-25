@@ -12,10 +12,18 @@ class EventRepositoryImpl(
     var eventApi: EventApi
 ): EventRepository {
 
-    override suspend fun getEvent(eventId: Int): Event {
+    override suspend fun getEvent(): List<Event> {
         val result = eventApi.getEvent()
         println("network data: $result")
         return result
+    }
+
+    override suspend fun createEVent(event: Event): Event {
+        return eventApi.createEvent(event = event)
+    }
+
+    override suspend fun getEventById(id: Int): Event {
+        return eventApi.getEventById(id)
     }
 
     override suspend fun updateEvent() {

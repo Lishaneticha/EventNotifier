@@ -22,10 +22,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.gebeya.eventnotifier.viewmodel.WelcomeScreenViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EventApp(){
+fun EventApp(
+    welcomeScreenViewModel: WelcomeScreenViewModel
+){
 
     val navController = rememberNavController()
     val canNavBack = remember{ mutableStateOf(false)}
@@ -66,7 +69,8 @@ fun EventApp(){
                     WelcomeScreen(
                         navToHomeScreen = {
                             navController.navigate("home screen?name=Abel?age=12")
-                        }
+                        },
+                        welcomeScreenViewModel = welcomeScreenViewModel
                     )
                 }
 
