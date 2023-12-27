@@ -68,33 +68,16 @@ fun EventApp(
 
                     WelcomeScreen(
                         navToHomeScreen = {
-                            navController.navigate("home screen?name=Abel?age=12")
+                            navController.navigate("home screen")
                         },
                         welcomeScreenViewModel = welcomeScreenViewModel
                     )
                 }
 
-                composable(
-                    route = "home screen?name={name}?age={age}",
-                    arguments = listOf(
-                        navArgument("name"){
-                            defaultValue = "test"
-                        },
-                        navArgument("age"){
-                            defaultValue = 0
-                            type = NavType.IntType
-                        }
-                    )
-                ){ backStackEntry ->
-
-                    val name = backStackEntry.arguments?.getString("name")
-                    val age = backStackEntry.arguments?.getInt("age")
+                composable(route = "home screen"){ backStackEntry ->
 
                     canNavBack.value = navController.previousBackStackEntry != null
-                    HomeScreen(
-                        name = name,
-                        age = age
-                    )
+                    HomeScreen()
                 }
 
                 composable(route = "add screen"){

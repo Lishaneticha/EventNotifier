@@ -37,14 +37,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        welcomeScreenViewModel.createEvent(
-            event = Event(
-                date = "2/2/2024",
-                name = "Gebeya event",
-                type = "Company",
-                location = "Bahir dar"
-            ).copy(name = "", location = "")
-        )
     }
 
     override fun onPause() {

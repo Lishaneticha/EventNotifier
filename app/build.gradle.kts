@@ -80,4 +80,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
 
+    val hilt_nav_version = "1.1.0"
+    implementation("androidx.hilt:hilt-navigation-compose:$hilt_nav_version")
+
 }

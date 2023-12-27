@@ -13,8 +13,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WelcomeScreenViewModel @Inject constructor(
+class HomeScreenViewModel @Inject constructor(
     val eventRepository: EventRepository
 ): ViewModel() {
+
+    var eventList: List<Event> by mutableStateOf(listOf())
+
+    fun getEvents(){
+        viewModelScope.launch {
+            val result = eventRepository.getEvent()
+            when(result){
+                is Result.Fail -> TODO()
+                is Result.Success -> eventList = result.data ?: listOf()
+            }
+        }
+    }
 
 }

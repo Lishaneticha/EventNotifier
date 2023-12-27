@@ -4,7 +4,7 @@ import com.gebeya.eventnotifier.data.network.entity.Event
 
 interface EventRepository {
 
-    suspend fun getEvent(): List<Event>
+    suspend fun getEvent(): Result<List<Event>>
 
     suspend fun createEVent(event: Event): Event
 
