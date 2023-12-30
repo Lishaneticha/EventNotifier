@@ -34,8 +34,17 @@ class EventRepositoryImpl(
         return eventApi.createEvent(event = event)
     }
 
-    override suspend fun getEventById(id: Int): Event {
-        return eventApi.getEventById(id)
+    override suspend fun getEventById(id: Int): Result<Event> {
+        try{
+            val data = eventApi.getEventById(id)
+            return Result.Success(data = data)
+        } catch (e: IOException){
+            return Result.Fail(errorMessage = "Wifi connection is not enabled")
+        } catch (e: HttpException){
+            return Result.Fail(errorMessage = e.message ?: "")
+        } catch (t: Throwable){
+            return Result.Fail(errorMessage = t.message ?: "")
+        }
     }
 
     override suspend fun updateEvent() {

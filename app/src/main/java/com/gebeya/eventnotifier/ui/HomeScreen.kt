@@ -24,7 +24,9 @@ import com.gebeya.eventnotifier.ui.components.EventCard
 import com.gebeya.eventnotifier.viewmodel.HomeScreenViewModel
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    viewDetail: (id: Int) -> Unit
+){
     val homeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
     homeScreenViewModel.getEvents()
 
@@ -39,7 +41,13 @@ fun HomeScreen(){
             ) {
                 items(homeScreenViewModel.eventList) {
                     EventCard(
-                        name = it.name ?: "", location = it.location ?: "", date = it.date ?: ""
+                        id = it.id,
+                        name = it.name ?: "",
+                        location = it.location ?: "",
+                        date = it.date ?: "",
+                        viewDetail = { id ->
+                            viewDetail(id)
+                        }
                     )
                 }
             }
@@ -53,5 +61,5 @@ fun HomeScreen(){
 @Preview(showSystemUi = true)
 @Composable
 fun displayHomeScreen(){
-    HomeScreen()
+    HomeScreen({})
 }

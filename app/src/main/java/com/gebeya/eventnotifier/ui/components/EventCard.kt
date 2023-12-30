@@ -1,5 +1,6 @@
 package com.gebeya.eventnotifier.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,15 +18,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun EventCard(
+    id: Int,
     name: String,
     location: String,
-    date: String
+    date: String,
+    viewDetail: (id: Int) -> Unit
 ){
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp)
+            .clickable {
+                viewDetail(id)
+            }
     ) {
         Column(
             modifier = Modifier
@@ -56,5 +62,5 @@ fun EventCard(
 @Preview
 @Composable
 fun DisplayEventCard(){
-    EventCard("name", "location", "date")
+    EventCard(0, "name", "location", "date", {})
 }

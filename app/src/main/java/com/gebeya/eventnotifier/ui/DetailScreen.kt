@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,10 +26,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gebeya.eventnotifier.R
+import com.gebeya.eventnotifier.viewmodel.DetailScreenViewModel
 
 @Composable
-fun DetailScreen(){
+fun DetailScreen(
+    id: Int
+){
+    val detailScreenViewModel = hiltViewModel<DetailScreenViewModel>()
+    detailScreenViewModel.getEventById(id)
+
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -40,38 +48,74 @@ fun DetailScreen(){
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                contentScale = ContentScale.FillHeight,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(shape = CircleShape)
-                    .border(
-                        width = 2.dp, color = Color.White, shape = CircleShape
-                    ),
-                painter = painterResource(id = R.drawable.event_ph),
-                contentDescription = "placeholder"
-            )
+            if(detailScreenViewModel.event != null){
+                Image(
+                    contentScale = ContentScale.FillHeight,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .clip(shape = CircleShape)
+                        .border(
+                            width = 2.dp, color = Color.White, shape = CircleShape
+                        ),
+                    painter = painterResource(id = R.drawable.event_ph),
+                    contentDescription = "placeholder"
+                )
 
-            Row(
-                modifier  = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(id = R.string.name),
-                    fontWeight = FontWeight.Bold,
-                    textDecoration = TextDecoration.Underline
+                DetailScreenRow(
+                    text1 = stringResource(id = R.string.name),
+                    text2 = detailScreenViewModel.event?.name ?: "N/A"
                 )
-                Text(
-                    text = "music concert",
-                    textAlign = TextAlign.Left
+                DetailScreenRow(
+                    text1 = stringResource(id = R.string.location),
+                    text2 = detailScreenViewModel.event?.location ?: "N/A"
                 )
+                DetailScreenRow(
+                    text1 = stringResource(id = R.string.type),
+                    text2 = detailScreenViewModel.event?.type ?: "N/A"
+                )
+                DetailScreenRow(
+                    text1 = stringResource(id = R.string.date),
+                    text2 = detailScreenViewModel.event?.date ?: "N/A"
+                )
+            }else{
+                if(detailScreenViewModel.networkError != null){
+                    Text(
+                        text = detailScreenViewModel.networkError ?: "",
+                        color = Color(0xFFFF0000),
+                        fontWeight = FontWeight.Bold
+                    )
+                }else{
+                    LinearProgressIndicator()
+                }
             }
+
         }
+    }
+}
+
+@Composable
+fun DetailScreenRow(
+    text1: String,
+    text2: String
+){
+    Row(
+        modifier  = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = text1,
+            fontWeight = FontWeight.Bold,
+            textDecoration = TextDecoration.Underline
+        )
+        Text(
+            text = text2,
+            textAlign = TextAlign.Left
+        )
     }
 }
 
 @Preview
 @Composable
 fun DisplayDetailScreen(){
-    DetailScreen()
+    DetailScreen(0)
 }

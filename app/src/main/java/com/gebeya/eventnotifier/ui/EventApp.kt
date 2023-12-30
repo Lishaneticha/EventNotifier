@@ -32,7 +32,7 @@ fun EventApp(
 
     val navController = rememberNavController()
     val canNavBack = remember{ mutableStateOf(false)}
-    val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route
+    val currentScreen = navController.currentBackStackEntryAsState().value?.destination?.route?.split("/")?.get(0)
 
     Scaffold(
         topBar = {
@@ -77,12 +77,23 @@ fun EventApp(
                 composable(route = "home screen"){ backStackEntry ->
 
                     canNavBack.value = navController.previousBackStackEntry != null
-                    HomeScreen()
+                    HomeScreen(
+                        viewDetail = { id ->
+                            navController.navigate("detail screen/$id")
+                        }
+                    )
                 }
 
                 composable(route = "add screen"){
                     canNavBack.value = navController.previousBackStackEntry != null
                     AddEventScreen()
+                }
+
+                composable(route = "detail screen/{id}"){
+                    val id = it.arguments?.getString("id")
+                    DetailScreen(
+                        id = id?.toInt() ?: 0
+                    )
                 }
             }
 

@@ -13,18 +13,22 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeScreenViewModel @Inject constructor(
+class DetailScreenViewModel @Inject constructor(
     val eventRepository: EventRepository
 ): ViewModel() {
 
-    var eventList: List<Event> by mutableStateOf(listOf())
+    var event: Event? by mutableStateOf(null)
+    var networkError: String? by mutableStateOf(null)
 
-    fun getEvents(){
+    fun getEventById(id: Int){
         viewModelScope.launch {
-            val result = eventRepository.getEvent()
+            val result = eventRepository.getEventById(id)
             when(result){
-                is Result.Fail -> println("Network Error: ${result.errorMessage}")
-                is Result.Success -> eventList = result.data ?: listOf()
+                is Result.Fail -> networkError = result.errorMessage
+                is Result.Success -> {
+                    networkError = null
+                    event = result.data
+                }
             }
         }
     }
