@@ -37,6 +37,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        welcomeScreenViewModel.insertAll()
     }
 
     override fun onPause() {
