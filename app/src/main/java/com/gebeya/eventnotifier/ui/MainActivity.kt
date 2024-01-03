@@ -38,6 +38,8 @@ class MainActivity : ComponentActivity() {
             }
         }
         welcomeScreenViewModel.insertAll()
+        welcomeScreenViewModel.getAll()
+        welcomeScreenViewModel.getEventByID(13)
     }
 
     override fun onPause() {

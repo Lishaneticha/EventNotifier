@@ -22,7 +22,8 @@ object RoomModule {
             context = app,
             klass = AppDatabase::class.java,
             name = "event_db"
-        ).build()
+        ).fallbackToDestructiveMigration()
+         .build()
     }
 
     @Provides
