@@ -1,6 +1,9 @@
 package com.gebeya.eventnotifier.data.db
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.TypeConverter
+import java.time.Instant
 
 class TypeConverterRoom {
     @TypeConverter
@@ -18,5 +21,17 @@ class TypeConverterRoom {
             }
         }
         return result
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @TypeConverter
+    fun fromInstant(instant: Instant): Long{
+        return instant.toEpochMilli()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    @TypeConverter
+    fun toInstant(long: Long): Instant{
+        return Instant.ofEpochMilli(long)
     }
 }

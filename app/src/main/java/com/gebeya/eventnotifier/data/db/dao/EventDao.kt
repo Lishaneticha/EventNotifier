@@ -7,29 +7,23 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.gebeya.eventnotifier.data.db.entity.EVentDateName
 import com.gebeya.eventnotifier.data.db.entity.Event
-import com.gebeya.eventnotifier.data.db.entity.EventWithUser
+import com.gebeya.eventnotifier.data.db.entity.EventAndTicket
+import com.gebeya.eventnotifier.data.db.entity.Ticket
 import com.gebeya.eventnotifier.data.db.entity.User
+import com.gebeya.eventnotifier.data.db.entity.UserAndTicket
 
 @Dao
 interface EventDao {
     @Insert
     suspend fun insert(event: Event)
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(events: List<Event>, user: User)
+    suspend fun insertAll(events: List<Event>, users: List<User>, tickets: List<Ticket>)
 
     @Query("select * from events")
     suspend fun getAll(): List<Event>
-
-    @Query("SELECT event_date, name FROM events where id = :id")
-    suspend fun getEventByID(id: Int): EVentDateName
-
-
-    @Query("select events.name as event_name, user.first_name as user_name from events " +
-            "join user on events.id = user.event_id")
-    suspend fun getEventWithUser(): EventWithUser
 
     @Update
     suspend fun update(event: Event)
@@ -45,4 +39,16 @@ interface EventDao {
         deleteEvent(event)
         deleteUser(user)
     }
+
+    @Transaction
+    @Delete
+    suspend fun deletFromUserAndEvent(event: Event, user: User, ticket: Ticket)
+
+    @Transaction
+    @Query("select * from user")
+    suspend fun getUserAndTicket(): List<UserAndTicket>
+
+    @Transaction
+    @Query("select * from events")
+    suspend fun getEventAndTicket(): List<EventAndTicket>
 }

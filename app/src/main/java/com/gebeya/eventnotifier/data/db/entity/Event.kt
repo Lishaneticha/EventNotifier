@@ -5,20 +5,15 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-open class Address {
-    var location_name: String = ""
-    var phone_number: String = ""
-}
 
 @Entity(
-    tableName = "events", indices = [Index(value = ["name", "type"], unique = true)],
-    ignoredColumns = ["location_name"]
+    tableName = "events", indices = [Index(value = ["name", "type"], unique = true)]
 )
 data class Event(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val eventId: Int = 0,
     @ColumnInfo(name = "event_date") val date: String?,
     val name: String?,
     val type: String?,
     val location: String?,
     val tags: List<String>
-): Address()
+)
