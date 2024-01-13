@@ -12,13 +12,9 @@ class TypeConverterRoom {
     @TypeConverter
     fun toListStringFromString(stringList: String): List<String> {
         val result = ArrayList<String>()
-        val split =stringList.replace("[","").replace("]","").replace(" ","").split(",")
+        val split =stringList.replace("[","").replace("]","").split(",")
         for (n in split) {
-            try {
-                result.add(n)
-            } catch (e: Exception) {
-
-            }
+            result.add(n.trim())
         }
         return result
     }
