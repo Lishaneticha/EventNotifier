@@ -28,7 +28,6 @@ fun HomeScreen(
     viewDetail: (id: Int) -> Unit
 ){
     val homeScreenViewModel = hiltViewModel<HomeScreenViewModel>()
-    homeScreenViewModel.getEvents()
 
     Column(
         modifier = Modifier.fillMaxWidth(),

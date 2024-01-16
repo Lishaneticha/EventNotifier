@@ -30,56 +30,7 @@ class WelcomeScreenViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun insertAll(){
         viewModelScope.launch {
-            eventDBRepository.insertAll(
-                events = listOf(
-                    Event(
-                        date = "1/1/2024",
-                        name = "Music concert",
-                        type = "Concert",
-                        location = "Gondar",
-                        tags = listOf("Tag A", "Tag B")
-                    ),
-                    Event(
-                        date = "2/2/2024",
-                        name = "Art Gallery",
-                        type = "Gallery",
-                        location = "Hawassa",
-                        tags = listOf("Tag C", "Tag D")
-                    )
-                ),
-                users = listOf(
-                    User(
-                        first_name = "John",
-                        last_name = "Colun",
-                        event_id = 1,
-                        phone = "0923232323",
-                        address = Address(null,null,null,null)
-                    ),
-                    User(
-                        first_name = "Mike",
-                        last_name = "Miller",
-                        event_id = 1,
-                        phone = "0911235689",
-                        address = Address(null,null,null,null)
-                    )
-                ),
-                tickets = listOf(
-                    Ticket(
-                        startDate = Instant.now(),
-                        endDate = Instant.now(),
-                        sold = true,
-                        userId = 1,
-                        eventId = 1
-                    ),
-                    Ticket(
-                        startDate = Instant.now(),
-                        endDate = Instant.now(),
-                        sold = true,
-                        userId = 2,
-                        eventId = 1
-                    )
-                )
-            )
+
         }
     }
 

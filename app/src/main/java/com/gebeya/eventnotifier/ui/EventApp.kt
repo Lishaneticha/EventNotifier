@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -89,10 +90,17 @@ fun EventApp(
                     AddEventScreen()
                 }
 
-                composable(route = "detail screen/{id}"){
-                    val id = it.arguments?.getString("id")
+                composable(
+                    route = "detail screen/{id}",
+                    arguments = listOf(
+                        navArgument("id"){
+                            type = NavType.IntType
+                        }
+                    )
+                ){
+                    val id = it.arguments?.getInt("id")
                     DetailScreen(
-                        id = id?.toInt() ?: 0
+                        id = id ?: 0
                     )
                 }
             }

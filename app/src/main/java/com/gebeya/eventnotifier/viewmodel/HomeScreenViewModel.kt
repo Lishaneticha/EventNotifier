@@ -19,6 +19,10 @@ class HomeScreenViewModel @Inject constructor(
 
     var eventList: List<Event> by mutableStateOf(listOf())
 
+    init {
+        getEvents()
+    }
+
     fun getEvents(){
         viewModelScope.launch {
             val result = eventRepository.getEvent()

@@ -14,6 +14,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gebeya.eventnotifier.R
+import com.gebeya.eventnotifier.domain.repository.Result
 import com.gebeya.eventnotifier.viewmodel.DetailScreenViewModel
 
 @Composable
@@ -35,7 +38,7 @@ fun DetailScreen(
     id: Int
 ){
     val detailScreenViewModel = hiltViewModel<DetailScreenViewModel>()
-    detailScreenViewModel.getEventById(id)
+    val eventDetail by detailScreenViewModel.eventDetail.collectAsState(initial = null)
 
     Card(
         modifier = Modifier
@@ -48,47 +51,48 @@ fun DetailScreen(
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if(detailScreenViewModel.event != null){
-                Image(
-                    contentScale = ContentScale.FillHeight,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(shape = CircleShape)
-                        .border(
-                            width = 2.dp, color = Color.White, shape = CircleShape
-                        ),
-                    painter = painterResource(id = R.drawable.event_ph),
-                    contentDescription = "placeholder"
-                )
-
-                DetailScreenRow(
-                    text1 = stringResource(id = R.string.name),
-                    text2 = detailScreenViewModel.event?.name ?: "N/A"
-                )
-                DetailScreenRow(
-                    text1 = stringResource(id = R.string.location),
-                    text2 = detailScreenViewModel.event?.location ?: "N/A"
-                )
-                DetailScreenRow(
-                    text1 = stringResource(id = R.string.type),
-                    text2 = detailScreenViewModel.event?.type ?: "N/A"
-                )
-                DetailScreenRow(
-                    text1 = stringResource(id = R.string.date),
-                    text2 = detailScreenViewModel.event?.date ?: "N/A"
-                )
-            }else{
-                if(detailScreenViewModel.networkError != null){
+            when(eventDetail){
+                is Result.Fail -> {
                     Text(
-                        text = detailScreenViewModel.networkError ?: "",
+                        text = eventDetail?.errorMessage ?: "",
                         color = Color(0xFFFF0000),
                         fontWeight = FontWeight.Bold
                     )
-                }else{
+                }
+                is Result.Success -> {
+                    Image(
+                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier
+                            .size(100.dp)
+                            .clip(shape = CircleShape)
+                            .border(
+                                width = 2.dp, color = Color.White, shape = CircleShape
+                            ),
+                        painter = painterResource(id = R.drawable.event_ph),
+                        contentDescription = "placeholder"
+                    )
+
+                    DetailScreenRow(
+                        text1 = stringResource(id = R.string.name),
+                        text2 = detailScreenViewModel.event?.name ?: "N/A"
+                    )
+                    DetailScreenRow(
+                        text1 = stringResource(id = R.string.location),
+                        text2 = detailScreenViewModel.event?.location ?: "N/A"
+                    )
+                    DetailScreenRow(
+                        text1 = stringResource(id = R.string.type),
+                        text2 = detailScreenViewModel.event?.type ?: "N/A"
+                    )
+                    DetailScreenRow(
+                        text1 = stringResource(id = R.string.date),
+                        text2 = detailScreenViewModel.event?.date ?: "N/A"
+                    )
+                }
+                null -> {
                     LinearProgressIndicator()
                 }
             }
-
         }
     }
 }

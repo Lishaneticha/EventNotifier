@@ -23,4 +23,8 @@ class EventDBRepositoryImpl(
         println("Event With Ticket: ${eventDao.getEventAndTicket()}")
         return eventDao.getUserAndTicket()
     }
+
+    override suspend fun insertEvent(event: Event) {
+        eventDao.insert(event)
+    }
 }
