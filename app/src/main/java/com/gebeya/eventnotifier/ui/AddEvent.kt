@@ -110,7 +110,7 @@ fun AddEventScreen(){
 
         Button(
             onClick = {
-                addEventViewModel.validateInput("", eventType.value)
+                addEventViewModel.validateInput("", eventType.value, eventDate.value)
                 if(
                     addEventViewModel.nameError.value.isEmpty() &&
                     addEventViewModel.typeError.value.isEmpty()

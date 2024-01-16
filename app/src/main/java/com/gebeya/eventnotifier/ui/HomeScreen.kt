@@ -35,6 +35,7 @@ fun HomeScreen(
         verticalArrangement = Arrangement.Center
     ){
         if (homeScreenViewModel.eventList.isNotEmpty()) {
+            Text(text = "Events", textAlign = TextAlign.Center)
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
