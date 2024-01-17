@@ -1,6 +1,9 @@
 package com.gebeya.eventnotifier.domain.repository
 
 import com.gebeya.eventnotifier.data.network.entity.Event
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 interface EventRepository {
 
@@ -13,5 +16,7 @@ interface EventRepository {
     suspend fun updateEvent()
 
     suspend fun deleteEvent()
+
+    fun timer(): Flow<Int>
 
 }

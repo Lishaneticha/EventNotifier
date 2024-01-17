@@ -6,6 +6,10 @@ import com.gebeya.eventnotifier.data.network.entity.Event
 import com.gebeya.eventnotifier.domain.repository.EventRepository
 import com.gebeya.eventnotifier.domain.repository.Result
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -53,5 +57,16 @@ class EventRepositoryImpl(
 
     override suspend fun deleteEvent() {
         TODO("Not yet implemented")
+    }
+
+    override fun timer(): Flow<Int> {
+        return callbackFlow {
+            var i = 0
+            while (true){
+                i+=1
+                trySend(i)
+                delay(1000L)
+            }
+        }
     }
 }

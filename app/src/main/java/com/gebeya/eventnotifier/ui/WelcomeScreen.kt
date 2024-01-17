@@ -15,6 +15,8 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -36,13 +38,17 @@ fun WelcomeScreen(
     welcomeScreenViewModel: WelcomeScreenViewModel
 ){
     val welcomeScreenViewModel = hiltViewModel<WelcomeScreenViewModel>()
+    val second by welcomeScreenViewModel.second.collectAsState()
+    val location = welcomeScreenViewModel.location.collectAsState()
+
+    println("location: ${location.value?.latitude} ${location.value?.longitude}")
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ){
         val context = LocalContext.current
-        Text(text = "Welcome to Kotlin")
+        Text(text = "${second}")
 
         EventDatePicker(
             eventDate = {
