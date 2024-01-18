@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EventNotifier"
         tools:targetApi="34">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBJ2S18dzY1CUT2FNMNbcGjGvFOmFt9W2Q" />
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
