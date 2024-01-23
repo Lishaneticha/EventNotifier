@@ -18,7 +18,7 @@ object NetworkModule {
     @Singleton
     fun provideEvenApi(): EventApi{
         return Retrofit.Builder()
-            .baseUrl("https://api.etnhis.org/")
+            .baseUrl("https://api-generator.retool.com/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
             .create(EventApi::class.java)

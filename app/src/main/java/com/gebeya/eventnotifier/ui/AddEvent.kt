@@ -153,16 +153,6 @@ fun AddEventScreen(){
             Text(text = "save")
         }
 
-        Spacer(modifier = Modifier.padding(vertical = 10.dp))
-
-
-        Button(onClick = { addEventViewModel.login() }) {
-            Text(text = "Login")
-        }
-
-        Button(onClick = { addEventViewModel.locations() }) {
-            Text(text = "Locations")
-        }
 
     }
 }
