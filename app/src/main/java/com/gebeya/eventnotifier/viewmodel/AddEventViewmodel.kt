@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gebeya.eventnotifier.data.db.entity.Event
 import com.gebeya.eventnotifier.domain.repository.EventDBRepository
+import com.gebeya.eventnotifier.domain.repository.EventRepository
+import com.gebeya.eventnotifier.domain.repository.Result
+import com.gebeya.eventnotifier.prettyPrint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -15,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewmodel @Inject constructor(
-    val eventDBRepository: EventDBRepository
+    val eventDBRepository: EventDBRepository,
+    val eventRepository: EventRepository
 ): ViewModel() {
 
     val nameError = mutableStateOf("")
@@ -50,6 +54,26 @@ class AddEventViewmodel @Inject constructor(
 
         if(eventDate.isAfter(tomorrow.time.toInstant())){
 
+        }
+    }
+
+    fun login(){
+        viewModelScope.launch {
+            val result = eventRepository.login()
+            when(result){
+                is Result.Fail -> println("login result: ${result.errorMessage}")
+                is Result.Success -> println("login result: ${result.data}")
+            }
+        }
+    }
+
+    fun locations(){
+        viewModelScope.launch {
+            val result = eventRepository.getLocations()
+            when(result){
+                is Result.Fail -> println("get location: ${result.errorMessage}")
+                is Result.Success -> println("get location: ${result.data?.filter { it.level == "region" }}")
+            }
         }
     }
 
