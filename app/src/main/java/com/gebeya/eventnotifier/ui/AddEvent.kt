@@ -4,7 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +26,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.gebeya.eventnotifier.data.db.entity.Event
@@ -36,6 +40,7 @@ import java.time.Instant
 fun AddEventScreen(){
 
     val addEventViewModel = hiltViewModel<AddEventViewmodel>()
+    val horizontalPadding = 10.dp
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -43,17 +48,28 @@ fun AddEventScreen(){
         verticalArrangement = Arrangement.Center
     ){
         Text(
-            text = "Add event screen",
-            fontSize = 30.sp,
-            color = Color(0xFF5E69FF), //AARRGGBB
+            text = "Add event",
+            fontSize = 20.sp,
             fontStyle = FontStyle.Italic,
             fontWeight = FontWeight.Bold,
             fontFamily = FontFamily.Monospace,
-            letterSpacing = 10.sp,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
         )
+        
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
+
+        TextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
+            value = "",
+            onValueChange = {},
+            placeholder = { Text(text = "name")}
+        )
+
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
         val isExpanded = remember{
             mutableStateOf(false)
@@ -70,6 +86,9 @@ fun AddEventScreen(){
         val eventTypes = listOf("Conert", "Art Gallery", "Talent show")
 
         ExposedDropdownMenuBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = horizontalPadding),
             expanded = isExpanded.value,
             onExpandedChange = {
                 isExpanded.value = it
@@ -83,7 +102,9 @@ fun AddEventScreen(){
                 placeholder = { Text(text = "select event type")},
                 isError = addEventViewModel.nameError.value.isNotEmpty(),
                 supportingText = { Text(text = addEventViewModel.nameError.value) },
-                modifier = Modifier.menuAnchor()
+                modifier = Modifier
+                    .menuAnchor()
+                    .fillMaxWidth()
             )
 
             ExposedDropdownMenu(
@@ -107,6 +128,8 @@ fun AddEventScreen(){
                 eventDate.value = it
             }
         )
+
+        Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
         Button(
             onClick = {

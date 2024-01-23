@@ -65,7 +65,7 @@ class EventRepositoryImpl(
             while (true){
                 i+=1
                 trySend(i)
-                delay(1000L)
+                delay(5000L)
             }
         }
     }

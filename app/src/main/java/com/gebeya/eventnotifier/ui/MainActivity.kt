@@ -1,6 +1,8 @@
 package com.gebeya.eventnotifier.ui
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -52,6 +54,15 @@ class MainActivity : ComponentActivity() {
                 1
             )
         }
+
+        val notificationChannel = NotificationChannel(
+            "event_notification",
+            "event notify",
+            NotificationManager.IMPORTANCE_HIGH
+        )
+
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(notificationChannel)
 
         setContent {
             EventNotifierTheme {

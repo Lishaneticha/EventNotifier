@@ -35,6 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.gebeya.eventnotifier.ui.components.EventDatePicker
+import com.gebeya.eventnotifier.ui.components.EventNotification
 import com.gebeya.eventnotifier.viewmodel.WelcomeScreenViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
@@ -52,15 +53,18 @@ import java.time.Instant
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WelcomeScreen(
-    navToHomeScreen: () -> Unit,
-    welcomeScreenViewModel: WelcomeScreenViewModel
+    navToHomeScreen: () -> Unit
 ){
     val welcomeScreenViewModel = hiltViewModel<WelcomeScreenViewModel>()
     val second by welcomeScreenViewModel.second.collectAsState()
     val location = welcomeScreenViewModel.location.collectAsState()
+    val eventNotification = EventNotification( LocalContext.current )
 
     println("location: ${location.value?.latitude} ${location.value?.longitude}")
 
+//    LaunchedEffect(second){
+//        eventNotification.basicNotification("Event Notifier", "This is an event notification")
+//    }
 
     val context = LocalContext.current
     val mapType = remember { mutableStateOf(MapType.TERRAIN) }
@@ -113,6 +117,9 @@ fun WelcomeScreen(
                         contentDescription = "",
                         tint = if(mapType.value == MapType.TERRAIN){ Color.Black } else{ Color.White }
                     )
+                }
+                Button(onClick = { eventNotification.expandableNotification("Event Notifier", "This is an event notification") }) {
+                    Text(text = "Notify")
                 }
             }
         }
