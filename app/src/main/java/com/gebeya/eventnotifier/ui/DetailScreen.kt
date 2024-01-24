@@ -74,19 +74,19 @@ fun DetailScreen(
 
                     DetailScreenRow(
                         text1 = stringResource(id = R.string.name),
-                        text2 = detailScreenViewModel.event?.name ?: "N/A"
+                        text2 = eventDetail?.data?.name ?: "N/A"
                     )
                     DetailScreenRow(
                         text1 = stringResource(id = R.string.location),
-                        text2 = detailScreenViewModel.event?.location ?: "N/A"
+                        text2 = eventDetail?.data?.location ?: "N/A"
                     )
                     DetailScreenRow(
                         text1 = stringResource(id = R.string.type),
-                        text2 = detailScreenViewModel.event?.type ?: "N/A"
+                        text2 = eventDetail?.data?.type ?: "N/A"
                     )
                     DetailScreenRow(
                         text1 = stringResource(id = R.string.date),
-                        text2 = detailScreenViewModel.event?.date ?: "N/A"
+                        text2 = eventDetail?.data?.date ?: "N/A"
                     )
                 }
                 null -> {
