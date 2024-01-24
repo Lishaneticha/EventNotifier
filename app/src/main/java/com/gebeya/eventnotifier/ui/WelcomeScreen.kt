@@ -53,92 +53,28 @@ import java.time.Instant
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun WelcomeScreen(
-    navToHomeScreen: () -> Unit
+    navToHomeScreen: () -> Unit,
+    navToAddEventScreen: () -> Unit,
+    navToMapScreen: () -> Unit
 ){
-    val welcomeScreenViewModel = hiltViewModel<WelcomeScreenViewModel>()
-    val second by welcomeScreenViewModel.second.collectAsState()
-    val location = welcomeScreenViewModel.location.collectAsState()
-    val eventNotification = EventNotification( LocalContext.current )
-
-    println("location: ${location.value?.latitude} ${location.value?.longitude}")
-
-//    LaunchedEffect(second){
-//        eventNotification.basicNotification("Event Notifier", "This is an event notification")
-//    }
-
-    val context = LocalContext.current
-    val mapType = remember { mutableStateOf(MapType.TERRAIN) }
-
-    if(location.value != null){
-        Box(modifier = Modifier.fillMaxSize()){
-            val cameraPosition = rememberCameraPositionState()
-
-            LaunchedEffect(location.value) {
-                cameraPosition.centerCamera(location.value ?: LatLng(0.0, 0.0))
-            }
-
-            GoogleMap(
-                modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPosition,
-                properties = MapProperties(
-                    mapType = mapType.value, isTrafficEnabled = true, isMyLocationEnabled = true
-                )
-            ) {
-                Marker(state = MarkerState(location.value ?: LatLng(0.0, 0.0)),
-                    title = "My position",
-                    snippet = "This is my current location updated every 10 sec",
-                    draggable = true,
-                    onClick = {
-                        println("Marker location: ${it.position}")
-                        true
-                    })
-
-                Marker(
-                    state = MarkerState(LatLng(8.997677611550133, 38.76446820795536)),
-                    title = "FLamingo Cafe",
-                    snippet = "This is a cafe near you"
-                )
-
-            }
-            Column(
-                modifier = Modifier.align(Alignment.CenterStart),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
-                Text(text = "${second}", color = Color.Black)
-                Button(onClick = {
-                    if (mapType.value == MapType.TERRAIN) {
-                        mapType.value = MapType.SATELLITE
-                    } else {
-                        mapType.value = MapType.TERRAIN
-                    }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = "",
-                        tint = if(mapType.value == MapType.TERRAIN){ Color.Black } else{ Color.White }
-                    )
-                }
-                Button(onClick = { eventNotification.expandableNotification("Event Notifier", "This is an event notification") }) {
-                    Text(text = "Notify")
-                }
-            }
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Button(onClick = navToHomeScreen) {
+            Text("Home (Retrofit calls)")
         }
-    }else{
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ){ CircularProgressIndicator() }
+        Button(onClick = navToAddEventScreen) {
+            Text("Add Event (Room)")
+        }
+        Button(onClick = navToMapScreen) {
+            Text("Map")
+        }
     }
-
 }
 
-suspend fun CameraPositionState.centerCamera( location: LatLng ){
-    return animate(
-        update = CameraUpdateFactory.newLatLngZoom( location, 15f ),
-        durationMs = 2000
-    )
-}
+
 
 fun check(): Boolean {
     TODO("I am waiting for API definition")

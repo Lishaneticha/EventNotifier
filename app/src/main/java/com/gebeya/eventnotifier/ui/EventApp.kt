@@ -70,12 +70,17 @@ fun EventApp(
             NavHost(navController = navController, startDestination = "welcome screen" ){
                 composable(route = "welcome screen"){
                     canNavBack.value = navController.previousBackStackEntry != null
-                    AddEventScreen()
-//                    WelcomeScreen(
-//                        navToHomeScreen = {
-//                            navController.navigate("home screen")
-//                        }
-//                    )
+                    WelcomeScreen(
+                        navToHomeScreen = {
+                            navController.navigate("home screen")
+                        },
+                        navToAddEventScreen = {
+                            navController.navigate("add screen")
+                        },
+                        navToMapScreen = {
+                            navController.navigate("map screen")
+                        }
+                    )
                 }
 
                 composable(route = "home screen"){ backStackEntry ->
@@ -91,6 +96,11 @@ fun EventApp(
                 composable(route = "add screen"){
                     canNavBack.value = navController.previousBackStackEntry != null
                     AddEventScreen()
+                }
+
+                composable(route = "map screen"){
+                    canNavBack.value = navController.previousBackStackEntry != null
+                    MapViewScreen()
                 }
 
                 composable(
