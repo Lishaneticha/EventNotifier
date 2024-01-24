@@ -2,16 +2,8 @@ package com.gebeya.eventnotifier.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gebeya.eventnotifier.data.db.entity.Address
-import com.gebeya.eventnotifier.data.db.entity.Event
-import com.gebeya.eventnotifier.data.db.entity.Ticket
-import com.gebeya.eventnotifier.data.db.entity.User
 import com.gebeya.eventnotifier.domain.repository.EventDBRepository
 import com.gebeya.eventnotifier.domain.repository.EventRepository
 import com.gebeya.eventnotifier.domain.repository.LocationServiceRepository
@@ -20,9 +12,7 @@ import com.gebeya.eventnotifier.prettyPrint
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +27,7 @@ class WelcomeScreenViewModel @Inject constructor(
     init {
         getSecond()
         getLocation()
+        getLocations()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -70,6 +61,26 @@ class WelcomeScreenViewModel @Inject constructor(
         viewModelScope.launch {
             locationServiceRepository.requestLocationUpdate().collect{
                 location.value = it
+            }
+        }
+    }
+
+    fun login(){
+        viewModelScope.launch {
+            val result = eventRepository.login()
+            when(result){
+                is Result.Fail -> println("Login result: ${result.errorMessage}")
+                is Result.Success -> println("Login result: ${result.data}")
+            }
+        }
+    }
+
+    fun getLocations(){
+        viewModelScope.launch {
+            val result = eventRepository.getLocations()
+            when(result){
+                is Result.Fail -> println("Login result: ${result.errorMessage}")
+                is Result.Success -> println("Login result: ${result.data?.filter { it.level == "region" }}")
             }
         }
     }

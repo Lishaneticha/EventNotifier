@@ -57,6 +57,9 @@ fun WelcomeScreen(
     navToAddEventScreen: () -> Unit,
     navToMapScreen: () -> Unit
 ){
+
+    val welcomeScreenViewModel = hiltViewModel<WelcomeScreenViewModel>()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,6 +73,9 @@ fun WelcomeScreen(
         }
         Button(onClick = navToMapScreen) {
             Text("Map")
+        }
+        Button(onClick = { welcomeScreenViewModel.login() }) {
+            Text("Login")
         }
     }
 }
